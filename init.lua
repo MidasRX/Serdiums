@@ -14,6 +14,7 @@ Serdiums.Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
 Serdiums.SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
 Serdiums.ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 Serdiums.ESP = loadstring(game:HttpGet(repo .. "addons/ESP.lua"))()
+Serdiums.Chams = loadstring(game:HttpGet(repo .. "addons/Chams.lua"))()
 
 -- Auto-setup managers with library
 Serdiums.SaveManager:SetLibrary(Serdiums.Library)

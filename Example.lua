@@ -11,6 +11,7 @@ local Library = Serdiums.Library
 local SaveManager = Serdiums.SaveManager
 local ThemeManager = Serdiums.ThemeManager
 local ESP = Serdiums.ESP
+local Chams = Serdiums.Chams
 
 -- Access globals
 local Toggles = Library.Toggles
@@ -213,27 +214,70 @@ ESPSection:AddSlider("ESPDistance", {
 -- Chams Section
 local ChamsSection = VisualsTab:AddSection("Chams")
 
+-- Start Chams system
+Chams:Start()
+
 ChamsSection:AddToggle("PlayerChams", {
     Text = "Player Chams",
-    Default = false
+    Default = false,
+    Callback = function(value)
+        Chams:Toggle(value)
+    end
+})
+
+ChamsSection:AddToggle("ChamsTeamCheck", {
+    Text = "Team Check",
+    Default = false,
+    Callback = function(value)
+        Chams.TeamCheck = value
+    end
 })
 
 ChamsSection:AddColorPicker("ChamsVisibleColor", {
     Text = "Visible Color",
-    Default = Color3.fromRGB(0, 255, 0)
+    Default = Color3.fromRGB(0, 255, 0),
+    Callback = function(color)
+        Chams.VisibleColor = color
+    end
 })
 
 ChamsSection:AddColorPicker("ChamsHiddenColor", {
     Text = "Hidden Color",
-    Default = Color3.fromRGB(255, 0, 0)
+    Default = Color3.fromRGB(255, 0, 0),
+    Callback = function(color)
+        Chams.HiddenColor = color
+    end
 })
 
-ChamsSection:AddSlider("ChamsTransparency", {
-    Text = "Transparency",
+ChamsSection:AddSlider("ChamsFillTransparency", {
+    Text = "Fill Transparency",
     Min = 0,
     Max = 1,
     Default = 0.5,
-    Rounding = 2
+    Rounding = 2,
+    Callback = function(value)
+        Chams.FillTransparency = value
+    end
+})
+
+ChamsSection:AddSlider("ChamsOutlineTransparency", {
+    Text = "Outline Transparency",
+    Min = 0,
+    Max = 1,
+    Default = 0,
+    Rounding = 2,
+    Callback = function(value)
+        Chams.OutlineTransparency = value
+    end
+})
+
+ChamsSection:AddDropdown("ChamsDepthMode", {
+    Text = "Depth Mode",
+    Values = {"AlwaysOnTop", "Occluded"},
+    Default = "AlwaysOnTop",
+    Callback = function(value)
+        Chams.DepthMode = Enum.HighlightDepthMode[value]
+    end
 })
 
 --// MISC TAB \\--
