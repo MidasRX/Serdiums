@@ -137,34 +137,64 @@ local VisualsTab = Window:AddTab("Visuals")
 -- ESP Section
 local ESPSection = VisualsTab:AddSection("ESP")
 
+-- Start ESP system
+ESP:Start()
+
 ESPSection:AddToggle("PlayerESP", {
     Text = "Player ESP",
     Default = false,
     Callback = function(value)
-        print("Player ESP:", value)
+        ESP:Toggle(value)
     end
 })
 
 ESPSection:AddToggle("BoxESP", {
     Text = "Boxes",
-    Default = true
+    Default = true,
+    Callback = function(value)
+        ESP.Boxes = value
+    end
 })
 
 ESPSection:AddToggle("NameESP", {
     Text = "Names",
-    Default = true
+    Default = true,
+    Callback = function(value)
+        ESP.Names = value
+    end
 })
 
 ESPSection:AddToggle("HealthESP", {
     Text = "Health Bars",
-    Default = false
+    Default = true,
+    Callback = function(value)
+        ESP.Health = value
+    end
+})
+
+ESPSection:AddToggle("DistanceESP", {
+    Text = "Distance",
+    Default = true,
+    Callback = function(value)
+        ESP.Distance = value
+    end
+})
+
+ESPSection:AddToggle("TracerESP", {
+    Text = "Tracers",
+    Default = false,
+    Callback = function(value)
+        ESP.Tracers = value
+    end
 })
 
 ESPSection:AddColorPicker("ESPColor", {
-    Text = "ESP Color",
-    Default = Color3.fromRGB(255, 0, 0),
+    Text = "Box Color",
+    Default = Color3.fromRGB(255, 255, 255),
     Callback = function(color)
-        print("ESP Color:", color)
+        ESP.BoxColor = color
+        ESP.NameColor = color
+        ESP.TracerColor = color
     end
 })
 
@@ -172,9 +202,12 @@ ESPSection:AddSlider("ESPDistance", {
     Text = "Max Distance",
     Min = 100,
     Max = 5000,
-    Default = 1000,
+    Default = 2000,
     Rounding = 0,
-    Suffix = " studs"
+    Suffix = " studs",
+    Callback = function(value)
+        ESP.MaxDistance = value
+    end
 })
 
 -- Chams Section

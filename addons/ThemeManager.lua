@@ -184,21 +184,60 @@ function ThemeManager:BuildFolderTree()
 end
 
 function ThemeManager:ApplyTheme(name)
+    if not self.Library then
+        warn("[Serdiums ThemeManager] Library not set!")
+        return false
+    end
+    
     local theme = self.BuiltInThemes[name]
     if not theme then
         theme = self:GetCustomTheme(name)
     end
     
-    if not theme then return false end
+    if not theme then
+        warn("[Serdiums ThemeManager] Theme not found:", name)
+        return false
+    end
     
     for key, hex in pairs(theme) do
-        if self.Library.Theme[key] then
+        if self.Library.Theme[key] ~= nil then
             self.Library.Theme[key] = Color3.fromHex(hex)
         end
     end
     
-    self.Library:UpdateTheme()
+    -- Update all registered UI elements
+    if self.Library.UpdateTheme then
+        self.Library:UpdateTheme()
+    end
+    
+    -- Also refresh the UI manually
+    if self.Library.Main then
+        self:RefreshUI()
+    end
+    
     return true
+end
+
+function ThemeManager:RefreshUI()
+    -- Refresh main window colors
+    local lib = self.Library
+    if not lib or not lib.Main then return end
+    
+    lib.Main.BackgroundColor3 = lib.Theme.Background
+    
+    -- Recursively update colors
+    local function updateDescendants(parent)
+        for _, child in ipairs(parent:GetChildren()) do
+            if child:IsA("Frame") and child.Name ~= "Main" then
+                if child.BackgroundTransparency < 1 then
+                    -- Keep accent colors for sliders/toggles
+                end
+            end
+            updateDescendants(child)
+        end
+    end
+    
+    updateDescendants(lib.Main)
 end
 
 function ThemeManager:GetCustomTheme(name)

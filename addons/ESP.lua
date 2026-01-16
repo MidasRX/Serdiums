@@ -3,6 +3,16 @@
     Gamesense-style ESP System
 ]]
 
+-- Check if Drawing API exists
+if not Drawing then
+    return {
+        Enabled = false,
+        Start = function() warn("[Serdiums ESP] Drawing API not available") end,
+        Stop = function() end,
+        Toggle = function() end
+    }
+end
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local CoreGui = game:GetService("CoreGui")
@@ -309,14 +319,22 @@ function ESP:UpdateObject(player)
 end
 
 function ESP:Start()
+    -- Stop if already running
+    self:Stop()
+    
     -- Create for existing players
     for _, player in ipairs(Players:GetPlayers()) do
-        self:CreateObject(player)
+        if player ~= LocalPlayer then
+            self:CreateObject(player)
+        end
     end
     
     -- Player added
     table.insert(self.Connections, Players.PlayerAdded:Connect(function(player)
-        self:CreateObject(player)
+        task.wait(1) -- Wait for character
+        if player ~= LocalPlayer then
+            self:CreateObject(player)
+        end
     end))
     
     -- Player removed
@@ -326,10 +344,15 @@ function ESP:Start()
     
     -- Update loop
     table.insert(self.Connections, RunService.RenderStepped:Connect(function()
-        for player in pairs(self.Objects) do
-            self:UpdateObject(player)
+        Camera = workspace.CurrentCamera
+        for player, _ in pairs(self.Objects) do
+            if player and player.Parent then
+                self:UpdateObject(player)
+            end
         end
     end))
+    
+    print("[Serdiums ESP] Started - Tracking", #Players:GetPlayers() - 1, "players")
 end
 
 function ESP:Stop()
