@@ -16,9 +16,10 @@ A sleek, gamesense-style UI library for Roblox exploits with a modern dark theme
 ## Installation
 
 ```lua
-local Library = loadstring(game:HttpGet("YOUR_RAW_URL/Library.lua"))()
-local SaveManager = loadstring(game:HttpGet("YOUR_RAW_URL/addons/SaveManager.lua"))()
-local ThemeManager = loadstring(game:HttpGet("YOUR_RAW_URL/addons/ThemeManager.lua"))()
+local repo = "https://raw.githubusercontent.com/MidasRX/Serdiums/main/"
+local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
+local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
+local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 ```
 
 ## Quick Start

@@ -3,15 +3,11 @@
     Demonstrates all features of the Serdiums UI Library
 ]]
 
--- Load Library (use your own loading method)
-local Library = loadstring(game:HttpGet("YOUR_RAW_URL/Library.lua"))()
-local SaveManager = loadstring(game:HttpGet("YOUR_RAW_URL/addons/SaveManager.lua"))()
-local ThemeManager = loadstring(game:HttpGet("YOUR_RAW_URL/addons/ThemeManager.lua"))()
-
--- Or if local:
--- local Library = loadfile("Serdiums/Library.lua")()
--- local SaveManager = loadfile("Serdiums/addons/SaveManager.lua")()
--- local ThemeManager = loadfile("Serdiums/addons/ThemeManager.lua")()
+-- Load Library
+local repo = "https://raw.githubusercontent.com/MidasRX/Serdiums/main/"
+local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
+local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
+local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
 
 -- Access globals
 local Toggles = Library.Toggles
