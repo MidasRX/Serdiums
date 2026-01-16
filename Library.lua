@@ -122,16 +122,16 @@ function Library:CreateWindow(config)
     -- Sidebar (left)
     local Sidebar = Create("Frame", {
         Name = "Sidebar",
-        Size = UDim2.new(0, 50, 1, 0),
+        Size = UDim2.new(0, 36, 1, 0),
         BackgroundColor3 = Library.Theme.Sidebar,
         BorderSizePixel = 0,
         Parent = Main
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = Sidebar})
+    Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = Sidebar})
     -- Cover right corners
     Create("Frame", {
-        Size = UDim2.new(0, 10, 1, 0),
-        Position = UDim2.new(1, -10, 0, 0),
+        Size = UDim2.new(0, 8, 1, 0),
+        Position = UDim2.new(1, -8, 0, 0),
         BackgroundColor3 = Library.Theme.Sidebar,
         BorderSizePixel = 0,
         Parent = Sidebar
@@ -139,14 +139,14 @@ function Library:CreateWindow(config)
 
     local TabButtons = Create("Frame", {
         Name = "TabButtons",
-        Size = UDim2.new(1, -8, 1, -8),
-        Position = UDim2.new(0, 4, 0, 4),
+        Size = UDim2.new(1, -4, 1, -4),
+        Position = UDim2.new(0, 2, 0, 2),
         BackgroundTransparency = 1,
         Parent = Sidebar
     })
     Create("UIListLayout", {
         SortOrder = Enum.SortOrder.LayoutOrder,
-        Padding = UDim.new(0, 4),
+        Padding = UDim.new(0, 2),
         HorizontalAlignment = Enum.HorizontalAlignment.Center,
         Parent = TabButtons
     })
@@ -154,8 +154,8 @@ function Library:CreateWindow(config)
     -- Content Area
     local Content = Create("Frame", {
         Name = "Content",
-        Size = UDim2.new(1, -54, 1, -8),
-        Position = UDim2.new(0, 52, 0, 4),
+        Size = UDim2.new(1, -40, 1, -4),
+        Position = UDim2.new(0, 38, 0, 2),
         BackgroundTransparency = 1,
         ClipsDescendants = true,
         Parent = Main
@@ -178,17 +178,17 @@ function Library:CreateWindow(config)
 
         local TabBtn = Create("TextButton", {
             Name = name,
-            Size = UDim2.new(0, 38, 0, 38),
+            Size = UDim2.new(0, 28, 0, 28),
             BackgroundColor3 = Library.Theme.SidebarBtn,
             BorderSizePixel = 0,
             Text = iconText,
             TextColor3 = Library.Theme.TextDim,
-            TextSize = 18,
+            TextSize = 14,
             Font = Enum.Font.GothamBold,
             AutoButtonColor = false,
             Parent = TabButtons
         })
-        Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = TabBtn})
+        Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = TabBtn})
 
         local TabContent = Create("Frame", {
             Name = name .. "_Content",
@@ -201,7 +201,7 @@ function Library:CreateWindow(config)
         -- Two columns
         local LeftCol = Create("ScrollingFrame", {
             Name = "Left",
-            Size = UDim2.new(0.5, -4, 1, 0),
+            Size = UDim2.new(0.5, -2, 1, 0),
             Position = UDim2.new(0, 0, 0, 0),
             BackgroundTransparency = 1,
             ScrollBarThickness = 2,
@@ -210,13 +210,13 @@ function Library:CreateWindow(config)
             AutomaticCanvasSize = Enum.AutomaticSize.Y,
             Parent = TabContent
         })
-        Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 6), Parent = LeftCol})
-        Create("UIPadding", {PaddingTop = UDim.new(0, 2), PaddingBottom = UDim.new(0, 2), Parent = LeftCol})
+        Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 4), Parent = LeftCol})
+        Create("UIPadding", {PaddingTop = UDim.new(0, 1), PaddingBottom = UDim.new(0, 1), Parent = LeftCol})
 
         local RightCol = Create("ScrollingFrame", {
             Name = "Right",
-            Size = UDim2.new(0.5, -4, 1, 0),
-            Position = UDim2.new(0.5, 4, 0, 0),
+            Size = UDim2.new(0.5, -2, 1, 0),
+            Position = UDim2.new(0.5, 2, 0, 0),
             BackgroundTransparency = 1,
             ScrollBarThickness = 2,
             ScrollBarImageColor3 = Library.Theme.Accent,
@@ -224,8 +224,8 @@ function Library:CreateWindow(config)
             AutomaticCanvasSize = Enum.AutomaticSize.Y,
             Parent = TabContent
         })
-        Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 6), Parent = RightCol})
-        Create("UIPadding", {PaddingTop = UDim.new(0, 2), PaddingBottom = UDim.new(0, 2), Parent = RightCol})
+        Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 4), Parent = RightCol})
+        Create("UIPadding", {PaddingTop = UDim.new(0, 1), PaddingBottom = UDim.new(0, 1), Parent = RightCol})
 
         local Tab = {Name = name, Button = TabBtn, Content = TabContent, Left = LeftCol, Right = RightCol}
         table.insert(Window.Tabs, Tab)
@@ -275,39 +275,39 @@ end
 function Library:CreateSection(parent, name)
     local Section = Create("Frame", {
         Name = name,
-        Size = UDim2.new(1, -4, 0, 0),
+        Size = UDim2.new(1, -2, 0, 0),
         AutomaticSize = Enum.AutomaticSize.Y,
         BackgroundColor3 = Library.Theme.Section,
         BorderSizePixel = 0,
         Parent = parent
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = Section})
+    Create("UICorner", {CornerRadius = UDim.new(0, 3), Parent = Section})
 
     -- Header
     local Header = Create("Frame", {
         Name = "Header",
-        Size = UDim2.new(1, 0, 0, 22),
+        Size = UDim2.new(1, 0, 0, 18),
         BackgroundColor3 = Library.Theme.SectionHeader,
         BorderSizePixel = 0,
         Parent = Section
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = Header})
+    Create("UICorner", {CornerRadius = UDim.new(0, 3), Parent = Header})
     -- Cover bottom corners
     Create("Frame", {
-        Size = UDim2.new(1, 0, 0, 6),
-        Position = UDim2.new(0, 0, 1, -6),
+        Size = UDim2.new(1, 0, 0, 5),
+        Position = UDim2.new(0, 0, 1, -5),
         BackgroundColor3 = Library.Theme.SectionHeader,
         BorderSizePixel = 0,
         Parent = Header
     })
 
     Create("TextLabel", {
-        Size = UDim2.new(1, -10, 1, 0),
-        Position = UDim2.new(0, 8, 0, 0),
+        Size = UDim2.new(1, -8, 1, 0),
+        Position = UDim2.new(0, 6, 0, 0),
         BackgroundTransparency = 1,
         Text = name,
         TextColor3 = Library.Theme.TextBright,
-        TextSize = 12,
+        TextSize = 11,
         Font = Enum.Font.GothamBold,
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = Header
@@ -316,14 +316,14 @@ function Library:CreateSection(parent, name)
     -- Elements container
     local Elements = Create("Frame", {
         Name = "Elements",
-        Size = UDim2.new(1, -8, 0, 0),
-        Position = UDim2.new(0, 4, 0, 26),
+        Size = UDim2.new(1, -6, 0, 0),
+        Position = UDim2.new(0, 3, 0, 20),
         AutomaticSize = Enum.AutomaticSize.Y,
         BackgroundTransparency = 1,
         Parent = Section
     })
-    Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 2), Parent = Elements})
-    Create("UIPadding", {PaddingBottom = UDim.new(0, 6), Parent = Elements})
+    Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Padding = UDim.new(0, 1), Parent = Elements})
+    Create("UIPadding", {PaddingBottom = UDim.new(0, 4), Parent = Elements})
 
     local SectionObj = {Frame = Section, Elements = Elements}
 
@@ -369,8 +369,8 @@ function Library:CreateToggle(parent, id, config)
     local hasDropdown = config.Dropdown ~= nil
     local isRisky = config.Risky or false
 
-    local height = 18
-    if hasDropdown then height = height + 22 end
+    local height = 14
+    if hasDropdown then height = height + 16 end
 
     local Container = Create("Frame", {
         Size = UDim2.new(1, 0, 0, height),
@@ -380,21 +380,21 @@ function Library:CreateToggle(parent, id, config)
 
     -- Checkbox (small square)
     local Checkbox = Create("TextButton", {
-        Size = UDim2.new(0, 10, 0, 10),
-        Position = UDim2.new(0, 0, 0, 4),
+        Size = UDim2.new(0, 8, 0, 8),
+        Position = UDim2.new(0, 0, 0, 3),
         BackgroundColor3 = Library.Theme.Checkbox,
         BorderSizePixel = 0,
         Text = "",
         AutoButtonColor = false,
         Parent = Container
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 2), Parent = Checkbox})
+    Create("UICorner", {CornerRadius = UDim.new(0, 1), Parent = Checkbox})
     Create("UIStroke", {Color = Library.Theme.CheckboxBorder, Thickness = 1, Parent = Checkbox})
 
     -- Check indicator (inner square)
     local Check = Create("Frame", {
-        Size = UDim2.new(0, 6, 0, 6),
-        Position = UDim2.new(0.5, -3, 0.5, -3),
+        Size = UDim2.new(0, 4, 0, 4),
+        Position = UDim2.new(0.5, -2, 0.5, -2),
         BackgroundColor3 = isRisky and Library.Theme.Risky or Library.Theme.Accent,
         Visible = default,
         Parent = Checkbox
@@ -403,12 +403,12 @@ function Library:CreateToggle(parent, id, config)
 
     -- Label
     local Label = Create("TextButton", {
-        Size = UDim2.new(1, -14, 0, 18),
-        Position = UDim2.new(0, 14, 0, 0),
+        Size = UDim2.new(1, -12, 0, 14),
+        Position = UDim2.new(0, 12, 0, 0),
         BackgroundTransparency = 1,
         Text = config.Text or id,
         TextColor3 = isRisky and Library.Theme.Risky or Library.Theme.Text,
-        TextSize = 12,
+        TextSize = 11,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
         AutoButtonColor = false,
@@ -443,8 +443,8 @@ function Library:CreateToggle(parent, id, config)
         local ddef = dc.Default or vals[1]
 
         local DropBtn = Create("TextButton", {
-            Size = UDim2.new(1, -14, 0, 18),
-            Position = UDim2.new(0, 14, 0, 20),
+            Size = UDim2.new(1, -12, 0, 14),
+            Position = UDim2.new(0, 12, 0, 15),
             BackgroundColor3 = Library.Theme.Dropdown,
             BorderSizePixel = 0,
             Text = "",
@@ -452,28 +452,28 @@ function Library:CreateToggle(parent, id, config)
             ClipsDescendants = false,
             Parent = Container
         })
-        Create("UICorner", {CornerRadius = UDim.new(0, 3), Parent = DropBtn})
+        Create("UICorner", {CornerRadius = UDim.new(0, 2), Parent = DropBtn})
         Create("UIStroke", {Color = Library.Theme.DropdownBorder, Thickness = 1, Parent = DropBtn})
 
         local DropText = Create("TextLabel", {
-            Size = UDim2.new(1, -20, 1, 0),
-            Position = UDim2.new(0, 6, 0, 0),
+            Size = UDim2.new(1, -16, 1, 0),
+            Position = UDim2.new(0, 4, 0, 0),
             BackgroundTransparency = 1,
             Text = tostring(ddef),
             TextColor3 = Library.Theme.Text,
-            TextSize = 11,
+            TextSize = 10,
             Font = Enum.Font.Gotham,
             TextXAlignment = Enum.TextXAlignment.Left,
             Parent = DropBtn
         })
 
         local Arrow = Create("TextLabel", {
-            Size = UDim2.new(0, 14, 1, 0),
-            Position = UDim2.new(1, -14, 0, 0),
+            Size = UDim2.new(0, 12, 1, 0),
+            Position = UDim2.new(1, -12, 0, 0),
             BackgroundTransparency = 1,
             Text = "▾",
             TextColor3 = Library.Theme.TextDim,
-            TextSize = 10,
+            TextSize = 8,
             Font = Enum.Font.GothamBold,
             Parent = DropBtn
         })
@@ -496,24 +496,24 @@ function Library:CreateToggle(parent, id, config)
             Arrow.Text = "▴"
 
             OptionsList = Create("Frame", {
-                Size = UDim2.new(1, 0, 0, math.min(#vals * 18, 100)),
-                Position = UDim2.new(0, 0, 1, 2),
+                Size = UDim2.new(1, 0, 0, math.min(#vals * 14, 80)),
+                Position = UDim2.new(0, 0, 1, 1),
                 BackgroundColor3 = Library.Theme.Dropdown,
                 ZIndex = 50,
                 ClipsDescendants = true,
                 Parent = DropBtn
             })
-            Create("UICorner", {CornerRadius = UDim.new(0, 3), Parent = OptionsList})
+            Create("UICorner", {CornerRadius = UDim.new(0, 2), Parent = OptionsList})
             Create("UIStroke", {Color = Library.Theme.DropdownBorder, Thickness = 1, Parent = OptionsList})
             Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Parent = OptionsList})
 
             for _, val in ipairs(vals) do
                 local Opt = Create("TextButton", {
-                    Size = UDim2.new(1, 0, 0, 18),
+                    Size = UDim2.new(1, 0, 0, 14),
                     BackgroundTransparency = 1,
-                    Text = "  " .. val,
+                    Text = " " .. val,
                     TextColor3 = val == Dropdown.Value and Library.Theme.Accent or Library.Theme.Text,
-                    TextSize = 11,
+                    TextSize = 10,
                     Font = Enum.Font.Gotham,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     ZIndex = 51,
@@ -548,38 +548,38 @@ function Library:CreateSlider(parent, id, config)
     local suffix = config.Suffix or ""
 
     local Container = Create("Frame", {
-        Size = UDim2.new(1, 0, 0, 30),
+        Size = UDim2.new(1, 0, 0, 22),
         BackgroundTransparency = 1,
         Parent = parent
     })
 
     local Label = Create("TextLabel", {
-        Size = UDim2.new(0.65, 0, 0, 14),
+        Size = UDim2.new(0.6, 0, 0, 12),
         Position = UDim2.new(0, 0, 0, 0),
         BackgroundTransparency = 1,
         Text = config.Text or id,
         TextColor3 = Library.Theme.Text,
-        TextSize = 12,
+        TextSize = 11,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = Container
     })
 
     local ValueLabel = Create("TextLabel", {
-        Size = UDim2.new(0.35, 0, 0, 14),
-        Position = UDim2.new(0.65, 0, 0, 0),
+        Size = UDim2.new(0.4, 0, 0, 12),
+        Position = UDim2.new(0.6, 0, 0, 0),
         BackgroundTransparency = 1,
         Text = "",
         TextColor3 = Library.Theme.Accent,
-        TextSize = 12,
+        TextSize = 11,
         Font = Enum.Font.GothamBold,
         TextXAlignment = Enum.TextXAlignment.Right,
         Parent = Container
     })
 
     local SliderBg = Create("Frame", {
-        Size = UDim2.new(1, 0, 0, 5),
-        Position = UDim2.new(0, 0, 0, 18),
+        Size = UDim2.new(1, 0, 0, 4),
+        Position = UDim2.new(0, 0, 0, 14),
         BackgroundColor3 = Library.Theme.Slider,
         BorderSizePixel = 0,
         Parent = Container
@@ -646,26 +646,26 @@ function Library:CreateDropdown(parent, id, config)
     local multi = config.Multi or false
 
     local Container = Create("Frame", {
-        Size = UDim2.new(1, 0, 0, 36),
+        Size = UDim2.new(1, 0, 0, 28),
         BackgroundTransparency = 1,
         Parent = parent
     })
 
     local Label = Create("TextLabel", {
-        Size = UDim2.new(1, 0, 0, 14),
+        Size = UDim2.new(1, 0, 0, 12),
         Position = UDim2.new(0, 0, 0, 0),
         BackgroundTransparency = 1,
         Text = config.Text or id,
         TextColor3 = Library.Theme.Text,
-        TextSize = 12,
+        TextSize = 11,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = Container
     })
 
     local DropBtn = Create("TextButton", {
-        Size = UDim2.new(1, 0, 0, 18),
-        Position = UDim2.new(0, 0, 0, 16),
+        Size = UDim2.new(1, 0, 0, 14),
+        Position = UDim2.new(0, 0, 0, 13),
         BackgroundColor3 = Library.Theme.Dropdown,
         BorderSizePixel = 0,
         Text = "",
@@ -673,16 +673,16 @@ function Library:CreateDropdown(parent, id, config)
         ClipsDescendants = false,
         Parent = Container
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 3), Parent = DropBtn})
+    Create("UICorner", {CornerRadius = UDim.new(0, 2), Parent = DropBtn})
     Create("UIStroke", {Color = Library.Theme.DropdownBorder, Thickness = 1, Parent = DropBtn})
 
     local DropText = Create("TextLabel", {
-        Size = UDim2.new(1, -20, 1, 0),
-        Position = UDim2.new(0, 6, 0, 0),
+        Size = UDim2.new(1, -16, 1, 0),
+        Position = UDim2.new(0, 4, 0, 0),
         BackgroundTransparency = 1,
         Text = multi and "None" or tostring(default or "..."),
         TextColor3 = Library.Theme.Text,
-        TextSize = 11,
+        TextSize = 10,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
         TextTruncate = Enum.TextTruncate.AtEnd,
@@ -690,12 +690,12 @@ function Library:CreateDropdown(parent, id, config)
     })
 
     local Arrow = Create("TextLabel", {
-        Size = UDim2.new(0, 14, 1, 0),
-        Position = UDim2.new(1, -14, 0, 0),
+        Size = UDim2.new(0, 12, 1, 0),
+        Position = UDim2.new(1, -12, 0, 0),
         BackgroundTransparency = 1,
         Text = "▾",
         TextColor3 = Library.Theme.TextDim,
-        TextSize = 10,
+        TextSize = 8,
         Font = Enum.Font.GothamBold,
         Parent = DropBtn
     })
@@ -728,30 +728,30 @@ function Library:CreateDropdown(parent, id, config)
         isOpen = true
         Arrow.Text = "▴"
 
-        local h = math.min(#values * 18, 120)
+        local h = math.min(#values * 14, 100)
         OptionsList = Create("ScrollingFrame", {
             Size = UDim2.new(1, 0, 0, h),
-            Position = UDim2.new(0, 0, 1, 2),
+            Position = UDim2.new(0, 0, 1, 1),
             BackgroundColor3 = Library.Theme.Dropdown,
             BorderSizePixel = 0,
             ScrollBarThickness = 2,
             ScrollBarImageColor3 = Library.Theme.Accent,
-            CanvasSize = UDim2.new(0, 0, 0, #values * 18),
+            CanvasSize = UDim2.new(0, 0, 0, #values * 14),
             ZIndex = 50,
             Parent = DropBtn
         })
-        Create("UICorner", {CornerRadius = UDim.new(0, 3), Parent = OptionsList})
+        Create("UICorner", {CornerRadius = UDim.new(0, 2), Parent = OptionsList})
         Create("UIStroke", {Color = Library.Theme.DropdownBorder, Thickness = 1, Parent = OptionsList})
         Create("UIListLayout", {SortOrder = Enum.SortOrder.LayoutOrder, Parent = OptionsList})
 
         for _, val in ipairs(values) do
             local isSel = multi and Dropdown.Value[val] or (Dropdown.Value == val)
             local Opt = Create("TextButton", {
-                Size = UDim2.new(1, 0, 0, 18),
+                Size = UDim2.new(1, 0, 0, 14),
                 BackgroundTransparency = 1,
-                Text = "  " .. val,
+                Text = " " .. val,
                 TextColor3 = isSel and Library.Theme.Accent or Library.Theme.Text,
-                TextSize = 11,
+                TextSize = 10,
                 Font = Enum.Font.Gotham,
                 TextXAlignment = Enum.TextXAlignment.Left,
                 ZIndex = 51,
@@ -787,25 +787,25 @@ function Library:CreateColorPicker(parent, id, config)
     local default = config.Default or Color3.fromRGB(255, 255, 255)
 
     local Container = Create("Frame", {
-        Size = UDim2.new(1, 0, 0, 18),
+        Size = UDim2.new(1, 0, 0, 14),
         BackgroundTransparency = 1,
         Parent = parent
     })
 
     local Label = Create("TextLabel", {
-        Size = UDim2.new(1, -24, 1, 0),
+        Size = UDim2.new(1, -20, 1, 0),
         BackgroundTransparency = 1,
         Text = config.Text or id,
         TextColor3 = Library.Theme.Text,
-        TextSize = 12,
+        TextSize = 11,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = Container
     })
 
     local ColorBtn = Create("TextButton", {
-        Size = UDim2.new(0, 18, 0, 12),
-        Position = UDim2.new(1, -18, 0, 3),
+        Size = UDim2.new(0, 14, 0, 10),
+        Position = UDim2.new(1, -14, 0, 2),
         BackgroundColor3 = default,
         BorderSizePixel = 0,
         Text = "",
@@ -921,35 +921,35 @@ function Library:CreateKeybind(parent, id, config)
     local default = config.Default or Enum.KeyCode.Unknown
 
     local Container = Create("Frame", {
-        Size = UDim2.new(1, 0, 0, 18),
+        Size = UDim2.new(1, 0, 0, 14),
         BackgroundTransparency = 1,
         Parent = parent
     })
 
     local Label = Create("TextLabel", {
-        Size = UDim2.new(1, -50, 1, 0),
+        Size = UDim2.new(1, -40, 1, 0),
         BackgroundTransparency = 1,
         Text = config.Text or id,
         TextColor3 = Library.Theme.Text,
-        TextSize = 12,
+        TextSize = 11,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = Container
     })
 
     local KeyBtn = Create("TextButton", {
-        Size = UDim2.new(0, 45, 0, 14),
-        Position = UDim2.new(1, -45, 0, 2),
+        Size = UDim2.new(0, 36, 0, 12),
+        Position = UDim2.new(1, -36, 0, 1),
         BackgroundColor3 = Library.Theme.Dropdown,
         BorderSizePixel = 0,
         Text = default.Name or "...",
         TextColor3 = Library.Theme.Text,
-        TextSize = 10,
+        TextSize = 9,
         Font = Enum.Font.Gotham,
         AutoButtonColor = false,
         Parent = Container
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 3), Parent = KeyBtn})
+    Create("UICorner", {CornerRadius = UDim.new(0, 2), Parent = KeyBtn})
     Create("UIStroke", {Color = Library.Theme.DropdownBorder, Thickness = 1, Parent = KeyBtn})
 
     local Keybind = {Value = default, Type = "Keybind", Binding = false}
@@ -996,17 +996,17 @@ end
 --// BUTTON \\--
 function Library:CreateButton(parent, text, callback)
     local Button = Create("TextButton", {
-        Size = UDim2.new(1, 0, 0, 22),
+        Size = UDim2.new(1, 0, 0, 18),
         BackgroundColor3 = Library.Theme.Dropdown,
         BorderSizePixel = 0,
         Text = text,
         TextColor3 = Library.Theme.Text,
-        TextSize = 12,
+        TextSize = 11,
         Font = Enum.Font.Gotham,
         AutoButtonColor = false,
         Parent = parent
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 3), Parent = Button})
+    Create("UICorner", {CornerRadius = UDim.new(0, 2), Parent = Button})
     Create("UIStroke", {Color = Library.Theme.DropdownBorder, Thickness = 1, Parent = Button})
 
     Button.MouseEnter:Connect(function() Tween(Button, {BackgroundColor3 = Library.Theme.SidebarBtnActive}) end)
@@ -1021,11 +1021,11 @@ end
 --// LABEL \\--
 function Library:CreateLabel(parent, text)
     local Label = Create("TextLabel", {
-        Size = UDim2.new(1, 0, 0, 16),
+        Size = UDim2.new(1, 0, 0, 12),
         BackgroundTransparency = 1,
         Text = text,
         TextColor3 = Library.Theme.TextDim,
-        TextSize = 11,
+        TextSize = 10,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = parent
