@@ -1,6 +1,6 @@
 --[[
     Serdiums Example Script
-    Demonstrates all features of the Serdiums UI Library
+    Exact Gamesense Style UI Demo
 ]]
 
 -- Single loadstring to load everything
@@ -8,8 +8,6 @@ local Serdiums = loadstring(game:HttpGet("https://raw.githubusercontent.com/Mida
 
 -- Extract modules
 local Library = Serdiums.Library
-local SaveManager = Serdiums.SaveManager
-local ThemeManager = Serdiums.ThemeManager
 local ESP = Serdiums.ESP
 local Chams = Serdiums.Chams
 
@@ -17,139 +15,236 @@ local Chams = Serdiums.Chams
 local Toggles = Library.Toggles
 local Options = Library.Options
 
--- Create Window
+-- Create Window (Gamesense Style)
 local Window = Library:CreateWindow({
     Title = "Serdiums",
-    Subtitle = "v1.0.0 | Gamesense Style",
-    Size = UDim2.new(0, 550, 0, 400),
+    Size = UDim2.new(0, 520, 0, 380),
     ToggleKey = Enum.KeyCode.RightControl
 })
 
--- Setup Managers (folders for configs/themes)
-SaveManager:SetFolder("Serdiums/MyScript")
-ThemeManager:SetFolder("Serdiums/MyScript")
+--// RAGE TAB \\-- (Like gamesense)
+local RageTab = Window:AddTab("Rage", "⊕")
 
---// MAIN TAB \\--
-local MainTab = Window:AddTab("Main")
+-- Aimbot Section (Left column)
+local AimbotSection = RageTab:AddSection("Aimbot", "Left")
 
--- Combat Section
-local CombatSection = MainTab:AddSection("Combat")
-
-CombatSection:AddToggle("Aimbot", {
-    Text = "Aimbot",
+-- Toggle with inline dropdown (like gamesense "Enabled" with "Head" dropdown)
+AimbotSection:AddToggle("Aimbot", {
+    Text = "Enabled",
     Default = false,
+    Dropdown = {
+        Values = {"Head", "Chest", "Pelvis", "Nearest"},
+        Default = "Head",
+        Flag = "AimbotHitbox",
+        Callback = function(value)
+            print("Hitbox:", value)
+        end
+    },
     Callback = function(value)
         print("Aimbot:", value)
     end
 })
 
-CombatSection:AddToggle("SilentAim", {
-    Text = "Silent Aim",
+AimbotSection:AddToggle("MultiPoint", {
+    Text = "Multi-point",
     Default = false,
-    Risky = true,
-    Callback = function(value)
-        print("Silent Aim:", value)
-    end
+    Dropdown = {
+        Values = {"Low", "Medium", "High"},
+        Default = "Medium",
+        Flag = "MultiPointLevel"
+    }
 })
 
-CombatSection:AddSlider("AimFOV", {
-    Text = "FOV",
-    Min = 10,
-    Max = 500,
-    Default = 100,
-    Rounding = 0,
-    Suffix = "°",
-    Callback = function(value)
-        print("FOV:", value)
-    end
-})
-
-CombatSection:AddSlider("Smoothness", {
-    Text = "Smoothness",
+AimbotSection:AddSlider("MinHitChance", {
+    Text = "Minimum hit chance",
     Min = 0,
-    Max = 1,
-    Default = 0.5,
-    Rounding = 2,
-    Callback = function(value)
-        print("Smoothness:", value)
-    end
+    Max = 100,
+    Default = 90,
+    Suffix = "%"
 })
 
-CombatSection:AddDropdown("TargetPart", {
-    Text = "Target Part",
-    Values = {"Head", "Torso", "Random"},
-    Default = "Head",
-    Callback = function(value)
-        print("Target Part:", value)
-    end
+AimbotSection:AddSlider("MinDamage", {
+    Text = "Minimum damage",
+    Min = 0,
+    Max = 100,
+    Default = 50,
+    Suffix = "%"
 })
 
--- Movement Section
-local MovementSection = MainTab:AddSection("Movement")
+AimbotSection:AddDivider()
 
-MovementSection:AddToggle("Speed", {
-    Text = "Speed Hack",
-    Default = false,
-    Callback = function(value)
-        local player = game.Players.LocalPlayer
-        local char = player.Character
-        if char and char:FindFirstChildOfClass("Humanoid") then
-            char:FindFirstChildOfClass("Humanoid").WalkSpeed = value and Options.SpeedValue.Value or 16
-        end
-    end
-})
-
-MovementSection:AddSlider("SpeedValue", {
-    Text = "Walk Speed",
-    Min = 16,
-    Max = 500,
-    Default = 100,
-    Rounding = 0,
-    Callback = function(value)
-        if Toggles.Speed.Value then
-            local player = game.Players.LocalPlayer
-            local char = player.Character
-            if char and char:FindFirstChildOfClass("Humanoid") then
-                char:FindFirstChildOfClass("Humanoid").WalkSpeed = value
-            end
-        end
-    end
-})
-
-MovementSection:AddToggle("InfiniteJump", {
-    Text = "Infinite Jump",
+AimbotSection:AddToggle("HitChanceOverride", {
+    Text = "Minimum hit chance override",
     Default = false
 })
 
-MovementSection:AddKeybind("FlyKey", {
-    Text = "Fly Toggle",
-    Default = "F",
-    Callback = function()
-        print("Fly toggled!")
-    end,
-    ChangedCallback = function(key)
-        print("Fly keybind changed to:", key)
-    end
+AimbotSection:AddToggle("DamageOverride", {
+    Text = "Minimum damage override",
+    Default = false
+})
+
+AimbotSection:AddToggle("ForceLethal", {
+    Text = "Force lethal shot",
+    Default = false
+})
+
+AimbotSection:AddToggle("PreferBody", {
+    Text = "Prefer body aim",
+    Default = false
+})
+
+AimbotSection:AddToggle("ForceBody", {
+    Text = "Force body aim",
+    Default = false
+})
+
+AimbotSection:AddToggle("DelayShot", {
+    Text = "Delay shot",
+    Default = false
+})
+
+AimbotSection:AddToggle("QuickStop", {
+    Text = "Quick stop",
+    Default = false
+})
+
+AimbotSection:AddToggle("AutoScope", {
+    Text = "Auto scope",
+    Default = false
+})
+
+-- Other Section (Right column)
+local OtherSection = RageTab:AddSection("Other", "Right")
+
+OtherSection:AddDropdown("AccuracyBoost", {
+    Text = "Accuracy boost",
+    Values = {"Off", "Low", "Medium", "High"},
+    Default = "Low"
+})
+
+OtherSection:AddToggle("AutoFire", {
+    Text = "Automatic fire",
+    Default = false
+})
+
+OtherSection:AddToggle("AimWalls", {
+    Text = "Aim through walls",
+    Default = false,
+    Risky = true
+})
+
+OtherSection:AddToggle("SilentAim", {
+    Text = "Silent aim",
+    Default = false,
+    Risky = true
+})
+
+OtherSection:AddToggle("RemoveRecoil", {
+    Text = "Remove recoil",
+    Default = false
+})
+
+OtherSection:AddToggle("RemoveSpread", {
+    Text = "Remove spread",
+    Default = false
+})
+
+OtherSection:AddToggle("DoubleTap", {
+    Text = "Double tap",
+    Default = false,
+    Risky = true
+})
+
+OtherSection:AddToggle("QuickPeekAssist", {
+    Text = "Quick peek assist",
+    Default = false
+})
+
+OtherSection:AddToggle("DuckPeekAssist", {
+    Text = "Duck peek assist",
+    Default = false
+})
+
+OtherSection:AddToggle("LimitAimStep", {
+    Text = "Limit aim step",
+    Default = false
+})
+
+OtherSection:AddSlider("MaxFOV", {
+    Text = "Maximum FOV",
+    Min = 1,
+    Max = 180,
+    Default = 180,
+    Suffix = "°"
+})
+
+OtherSection:AddToggle("LogMissedShots", {
+    Text = "Log missed shots",
+    Default = false
+})
+
+-- Anti-Aim Section (Right column)
+local AntiAimSection = RageTab:AddSection("Anti-aimbot angles", "Right")
+
+AntiAimSection:AddToggle("AntiAim", {
+    Text = "Enabled",
+    Default = false,
+    Risky = true
+})
+
+AntiAimSection:AddDropdown("PitchType", {
+    Text = "Pitch",
+    Values = {"Off", "Down", "Up", "Zero"},
+    Default = "Down"
+})
+
+AntiAimSection:AddDropdown("YawType", {
+    Text = "Yaw",
+    Values = {"Off", "Local view", "Spin", "Random"},
+    Default = "Local view"
+})
+
+AntiAimSection:AddSlider("YawOffset", {
+    Text = "",
+    Min = -180,
+    Max = 180,
+    Default = 0,
+    Suffix = "°"
+})
+
+AntiAimSection:AddToggle("Jitter", {
+    Text = "Jitter",
+    Default = false
+})
+
+AntiAimSection:AddToggle("Spin", {
+    Text = "Spin",
+    Default = false
+})
+
+AntiAimSection:AddToggle("Freestanding", {
+    Text = "Freestanding",
+    Default = false
 })
 
 --// VISUALS TAB \\--
-local VisualsTab = Window:AddTab("Visuals")
+local VisualsTab = Window:AddTab("Visuals", "◉")
 
--- ESP Section
-local ESPSection = VisualsTab:AddSection("ESP")
+-- ESP Section (Left)
+local ESPSection = VisualsTab:AddSection("ESP", "Left")
 
--- Start ESP system
+-- Start ESP
 ESP:Start()
 
-ESPSection:AddToggle("PlayerESP", {
-    Text = "Player ESP",
+ESPSection:AddToggle("ESP", {
+    Text = "Enabled",
     Default = false,
     Callback = function(value)
         ESP:Toggle(value)
     end
 })
 
-ESPSection:AddToggle("BoxESP", {
+ESPSection:AddToggle("ESPBoxes", {
     Text = "Boxes",
     Default = true,
     Callback = function(value)
@@ -157,7 +252,7 @@ ESPSection:AddToggle("BoxESP", {
     end
 })
 
-ESPSection:AddToggle("NameESP", {
+ESPSection:AddToggle("ESPNames", {
     Text = "Names",
     Default = true,
     Callback = function(value)
@@ -165,15 +260,15 @@ ESPSection:AddToggle("NameESP", {
     end
 })
 
-ESPSection:AddToggle("HealthESP", {
-    Text = "Health Bars",
+ESPSection:AddToggle("ESPHealth", {
+    Text = "Health bars",
     Default = true,
     Callback = function(value)
         ESP.Health = value
     end
 })
 
-ESPSection:AddToggle("DistanceESP", {
+ESPSection:AddToggle("ESPDistance", {
     Text = "Distance",
     Default = true,
     Callback = function(value)
@@ -181,7 +276,7 @@ ESPSection:AddToggle("DistanceESP", {
     end
 })
 
-ESPSection:AddToggle("TracerESP", {
+ESPSection:AddToggle("ESPTracers", {
     Text = "Tracers",
     Default = false,
     Callback = function(value)
@@ -190,35 +285,32 @@ ESPSection:AddToggle("TracerESP", {
 })
 
 ESPSection:AddColorPicker("ESPColor", {
-    Text = "Box Color",
+    Text = "Color",
     Default = Color3.fromRGB(255, 255, 255),
     Callback = function(color)
         ESP.BoxColor = color
         ESP.NameColor = color
-        ESP.TracerColor = color
     end
 })
 
-ESPSection:AddSlider("ESPDistance", {
-    Text = "Max Distance",
+ESPSection:AddSlider("ESPMaxDist", {
+    Text = "Max distance",
     Min = 100,
     Max = 5000,
     Default = 2000,
-    Rounding = 0,
-    Suffix = " studs",
+    Suffix = "m",
     Callback = function(value)
         ESP.MaxDistance = value
     end
 })
 
--- Chams Section
-local ChamsSection = VisualsTab:AddSection("Chams")
+-- Chams Section (Left)
+local ChamsSection = VisualsTab:AddSection("Chams", "Left")
 
--- Start Chams system
 Chams:Start()
 
-ChamsSection:AddToggle("PlayerChams", {
-    Text = "Player Chams",
+ChamsSection:AddToggle("Chams", {
+    Text = "Enabled",
     Default = false,
     Callback = function(value)
         Chams:Toggle(value)
@@ -226,31 +318,31 @@ ChamsSection:AddToggle("PlayerChams", {
 })
 
 ChamsSection:AddToggle("ChamsTeamCheck", {
-    Text = "Team Check",
+    Text = "Team check",
     Default = false,
     Callback = function(value)
         Chams.TeamCheck = value
     end
 })
 
-ChamsSection:AddColorPicker("ChamsVisibleColor", {
-    Text = "Visible Color",
+ChamsSection:AddColorPicker("ChamsVisible", {
+    Text = "Visible color",
     Default = Color3.fromRGB(0, 255, 0),
     Callback = function(color)
         Chams.VisibleColor = color
     end
 })
 
-ChamsSection:AddColorPicker("ChamsHiddenColor", {
-    Text = "Hidden Color",
+ChamsSection:AddColorPicker("ChamsHidden", {
+    Text = "Hidden color",
     Default = Color3.fromRGB(255, 0, 0),
     Callback = function(color)
         Chams.HiddenColor = color
     end
 })
 
-ChamsSection:AddSlider("ChamsFillTransparency", {
-    Text = "Fill Transparency",
+ChamsSection:AddSlider("ChamsFill", {
+    Text = "Fill transparency",
     Min = 0,
     Max = 1,
     Default = 0.5,
@@ -260,99 +352,123 @@ ChamsSection:AddSlider("ChamsFillTransparency", {
     end
 })
 
-ChamsSection:AddSlider("ChamsOutlineTransparency", {
-    Text = "Outline Transparency",
-    Min = 0,
-    Max = 1,
-    Default = 0,
-    Rounding = 2,
+-- World Section (Right)
+local WorldSection = VisualsTab:AddSection("World", "Right")
+
+WorldSection:AddToggle("Fullbright", {
+    Text = "Fullbright",
+    Default = false,
     Callback = function(value)
-        Chams.OutlineTransparency = value
+        local lighting = game:GetService("Lighting")
+        if value then
+            lighting.Ambient = Color3.new(1, 1, 1)
+            lighting.Brightness = 2
+            lighting.FogEnd = 100000
+        else
+            lighting.Ambient = Color3.new(0.5, 0.5, 0.5)
+            lighting.Brightness = 1
+        end
     end
 })
 
-ChamsSection:AddDropdown("ChamsDepthMode", {
-    Text = "Depth Mode",
-    Values = {"AlwaysOnTop", "Occluded"},
-    Default = "AlwaysOnTop",
+WorldSection:AddToggle("NoFog", {
+    Text = "No fog",
+    Default = false,
     Callback = function(value)
-        Chams.DepthMode = Enum.HighlightDepthMode[value]
+        game:GetService("Lighting").FogEnd = value and 100000 or 1000
     end
+})
+
+WorldSection:AddToggle("NoParticles", {
+    Text = "No particles",
+    Default = false
 })
 
 --// MISC TAB \\--
-local MiscTab = Window:AddTab("Misc")
+local MiscTab = Window:AddTab("Misc", "⚙")
+
+-- Movement Section
+local MovementSection = MiscTab:AddSection("Movement", "Left")
+
+MovementSection:AddToggle("Speed", {
+    Text = "Speed hack",
+    Default = false,
+    Callback = function(value)
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChildOfClass("Humanoid") then
+            char:FindFirstChildOfClass("Humanoid").WalkSpeed = value and Options.SpeedValue.Value or 16
+        end
+    end
+})
+
+MovementSection:AddSlider("SpeedValue", {
+    Text = "Walk speed",
+    Min = 16,
+    Max = 200,
+    Default = 50,
+    Callback = function(value)
+        if Toggles.Speed and Toggles.Speed.Value then
+            local char = game.Players.LocalPlayer.Character
+            if char and char:FindFirstChildOfClass("Humanoid") then
+                char:FindFirstChildOfClass("Humanoid").WalkSpeed = value
+            end
+        end
+    end
+})
+
+MovementSection:AddToggle("InfJump", {
+    Text = "Infinite jump",
+    Default = false
+})
+
+MovementSection:AddToggle("Fly", {
+    Text = "Fly",
+    Default = false,
+    Risky = true
+})
+
+MovementSection:AddSlider("FlySpeed", {
+    Text = "Fly speed",
+    Min = 10,
+    Max = 200,
+    Default = 50
+})
 
 -- Utility Section
-local UtilitySection = MiscTab:AddSection("Utility")
+local UtilitySection = MiscTab:AddSection("Utility", "Right")
 
 UtilitySection:AddButton({
-    Text = "Rejoin Server",
+    Text = "Rejoin server",
     Callback = function()
         game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId)
     end
 })
 
 UtilitySection:AddButton({
-    Text = "Server Hop",
+    Text = "Server hop",
     Callback = function()
         game:GetService("TeleportService"):Teleport(game.PlaceId)
     end
 })
 
 UtilitySection:AddButton({
-    Text = "Copy Game Link",
+    Text = "Copy game link",
     Callback = function()
         if setclipboard then
             setclipboard("roblox://placeId=" .. game.PlaceId)
-            Library:Notify({
-                Title = "Copied!",
-                Content = "Game link copied to clipboard",
-                Type = "Success",
-                Duration = 3
-            })
         end
     end
 })
 
 UtilitySection:AddDivider()
 
-UtilitySection:AddInput("ChatMessage", {
-    Text = "Chat Message",
-    Placeholder = "Enter message...",
-    Callback = function(text)
-        print("Input:", text)
-    end
-})
-
-UtilitySection:AddDropdown("Team", {
-    Text = "Team Filter",
-    Values = {"All", "Enemy", "Friendly"},
-    Default = "Enemy",
-    Callback = function(value)
-        print("Team Filter:", value)
-    end
-})
-
-UtilitySection:AddDropdown("MultiSelect", {
-    Text = "Features",
-    Values = {"Feature A", "Feature B", "Feature C", "Feature D"},
-    Multi = true,
-    Callback = function(value)
-        print("Selected features:", value)
-    end
-})
-
--- Fun Section
-local FunSection = MiscTab:AddSection("Fun")
-
-FunSection:AddToggle("AntiAFK", {
+UtilitySection:AddToggle("AntiAFK", {
     Text = "Anti AFK",
     Default = true,
     Callback = function(value)
         if value then
             local vu = game:GetService("VirtualUser")
-            game:GetService("Players").LocalPlayer.Idled:Connect(function()
+            game.Players.LocalPlayer.Idled:Connect(function()
                 vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
                 task.wait(1)
                 vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
@@ -361,49 +477,14 @@ FunSection:AddToggle("AntiAFK", {
     end
 })
 
-FunSection:AddLabel("These features are just for fun!")
-
---// SETTINGS TAB \\--
-local SettingsTab = Window:AddTab("Settings")
-
--- Theme Section
-ThemeManager:BuildThemeSection(SettingsTab)
-ThemeManager:BuildColorSection(SettingsTab)
-
--- Config Section
-SaveManager:BuildConfigSection(SettingsTab)
-
--- UI Section
-local UISection = SettingsTab:AddSection("UI Settings")
-
-UISection:AddKeybind("MenuToggle", {
-    Text = "Menu Toggle",
+UtilitySection:AddKeybind("MenuKey", {
+    Text = "Menu toggle",
     Default = "RightControl",
     ChangedCallback = function(key)
-        Library.ToggleKey = Enum.KeyCode[key]
+        if key then
+            Library.ToggleKey = key
+        end
     end
 })
 
-UISection:AddButton({
-    Text = "Unload Script",
-    Callback = function()
-        Library:Unload()
-    end
-})
-
---// NOTIFICATIONS EXAMPLE \\--
-Library:Notify({
-    Title = "Welcome!",
-    Content = "Serdiums loaded successfully",
-    Type = "Success",
-    Duration = 5
-})
-
--- OnChanged Examples
-Toggles.Aimbot:OnChanged(function(value)
-    print("Aimbot OnChanged:", value)
-end)
-
-Options.AimFOV:OnChanged(function(value)
-    print("FOV OnChanged:", value)
-end)
+print("[Serdiums] Loaded - Press RightControl to toggle")
