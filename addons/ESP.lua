@@ -103,19 +103,36 @@ local function GetBoundingBox(character)
     local rootPart = GetRootPart(character)
     if not rootPart then return nil, nil end
     
+    -- Safety check for camera
+    if not Camera or not Camera.Parent then
+        Camera = workspace.CurrentCamera
+        if not Camera then return nil, nil end
+    end
+    
     local position = rootPart.Position
-    local top = (character:FindFirstChild("Head") or rootPart).Position + Vector3.new(0, 1.5, 0)
+    local head = character:FindFirstChild("Head")
+    local top = head and (head.Position + Vector3.new(0, 1.5, 0)) or (position + Vector3.new(0, 3, 0))
     local bottom = position - Vector3.new(0, 3, 0)
     
-    local topScreen, topVisible = WorldToScreen(top)
-    local bottomScreen, bottomVisible = WorldToScreen(bottom)
+    local topScreen, topVisible, topZ = WorldToScreen(top)
+    local bottomScreen, bottomVisible, bottomZ = WorldToScreen(bottom)
+    
+    -- Must be in front of camera and at least partially visible
+    if topZ < 0 and bottomZ < 0 then
+        return nil, nil
+    end
     
     if not topVisible and not bottomVisible then
         return nil, nil
     end
     
-    local height = bottomScreen.Y - topScreen.Y
+    local height = math.abs(bottomScreen.Y - topScreen.Y)
     local width = height / 2
+    
+    -- Minimum size check
+    if height < 5 or width < 3 then
+        return nil, nil
+    end
     
     local boxPosition = Vector2.new(topScreen.X - width / 2, topScreen.Y)
     local boxSize = Vector2.new(width, height)
@@ -196,12 +213,24 @@ function ESP:UpdateObject(player)
     local object = self.Objects[player]
     if not object then return end
     
+    -- Safety check for invalid player
+    if not player or not player.Parent then
+        self:RemoveObject(player)
+        return
+    end
+    
     local character = GetCharacter(player)
     local humanoid = GetHumanoid(character)
     local rootPart = GetRootPart(character)
     
+    -- Ensure camera is valid
+    if not Camera or not Camera.Parent then
+        Camera = workspace.CurrentCamera
+    end
+    
     -- Check visibility conditions
     local visible = self.Enabled
+        and Camera
         and character
         and rootPart
         and humanoid
@@ -331,7 +360,6 @@ function ESP:Start()
     
     -- Player added
     table.insert(self.Connections, Players.PlayerAdded:Connect(function(player)
-        task.wait(1) -- Wait for character
         if player ~= LocalPlayer then
             self:CreateObject(player)
         end
@@ -342,12 +370,37 @@ function ESP:Start()
         self:RemoveObject(player)
     end))
     
-    -- Update loop
-    table.insert(self.Connections, RunService.RenderStepped:Connect(function()
+    -- Handle character respawns for existing players
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            table.insert(self.Connections, player.CharacterAdded:Connect(function()
+                -- Character respawned, ESP will update automatically
+            end))
+            table.insert(self.Connections, player.CharacterRemoving:Connect(function()
+                -- Hide ESP when character is removed
+                local object = self.Objects[player]
+                if object then
+                    for name, drawing in pairs(object) do
+                        if name ~= "Player" and drawing.Visible ~= nil then
+                            drawing.Visible = false
+                        end
+                    end
+                end
+            end))
+        end
+    end
+    
+    -- Update loop using Heartbeat for more reliable updates
+    table.insert(self.Connections, RunService.Heartbeat:Connect(function()
         Camera = workspace.CurrentCamera
+        if not Camera then return end
+        
         for player, _ in pairs(self.Objects) do
             if player and player.Parent then
                 self:UpdateObject(player)
+            else
+                -- Clean up invalid players
+                self:RemoveObject(player)
             end
         end
     end))
