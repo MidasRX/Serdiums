@@ -3,11 +3,14 @@
     Demonstrates all features of the Serdiums UI Library
 ]]
 
--- Load Library
-local repo = "https://raw.githubusercontent.com/MidasRX/Serdiums/main/"
-local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
-local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
-local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
+-- Single loadstring to load everything
+local Serdiums = loadstring(game:HttpGet("https://raw.githubusercontent.com/MidasRX/Serdiums/main/init.lua"))()
+
+-- Extract modules
+local Library = Serdiums.Library
+local SaveManager = Serdiums.SaveManager
+local ThemeManager = Serdiums.ThemeManager
+local ESP = Serdiums.ESP
 
 -- Access globals
 local Toggles = Library.Toggles
@@ -21,11 +24,8 @@ local Window = Library:CreateWindow({
     ToggleKey = Enum.KeyCode.RightControl
 })
 
--- Setup Managers
-SaveManager:SetLibrary(Library)
+-- Setup Managers (folders for configs/themes)
 SaveManager:SetFolder("Serdiums/MyScript")
-
-ThemeManager:SetLibrary(Library)
 ThemeManager:SetFolder("Serdiums/MyScript")
 
 --// MAIN TAB \\--

@@ -15,6 +15,17 @@ A sleek, gamesense-style UI library for Roblox exploits with a modern dark theme
 
 ## Installation
 
+**Single loadstring (recommended):**
+```lua
+local Serdiums = loadstring(game:HttpGet("https://raw.githubusercontent.com/MidasRX/Serdiums/main/init.lua"))()
+
+local Library = Serdiums.Library
+local SaveManager = Serdiums.SaveManager
+local ThemeManager = Serdiums.ThemeManager
+local ESP = Serdiums.ESP
+```
+
+**Or load individually:**
 ```lua
 local repo = "https://raw.githubusercontent.com/MidasRX/Serdiums/main/"
 local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
